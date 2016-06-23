@@ -97,6 +97,30 @@ Will change the html above to this:
 </html>
 ```
 
+File supports minimatch, allowing several files to be hashed and replaced. If this option is specified the replacement parameter cannot be present.
+
+```javascript
+'cache-busting': {
+	all: {
+		replace: ['tmp/**/*.html'],
+		file: 'tmp/deploy/**/*.css'
+	}
+}
+```
+```html
+<html>
+<head>
+	<link rel="stylesheet" href="css/style.css?v=HASH-OF-FILE-CONTENTS" />
+
+	<script data-main="js/app/MainApp-HASH-OF-FILE-CONTENTS" src="js/vendors/requirejs/require.js"></script>
+</head>
+<body>
+
+</body>
+</html>
+```
+Will change the html above to this:
+
 
 ## API reference
 ### replace
@@ -108,7 +132,10 @@ It supports [minimatch paths](https://github.com/isaacs/minimatch).
 
 ### file
 *file* is the file which will be renamed to filename-HASH-OF-FILE-CONTENTS.ext. The hash is generated based on the file
-contents of this parameter.
+contents of this parameter. It supports [minimatch paths](https://github.com/isaacs/minimatch).
+
+### matchHashed
+*matchHashed* If true (or not present) usages of filename-OLD-HASH-OF-FILE-CONTENTS.ext will be replaced with filename-NEW-HASH-OF-FILE-CONTENTS.ext. If false only usages of filename.ext will be replaced.
 
 ## Credits
 This plugin is build on top of [grunt-text-replace](https://github.com/yoniholmes/grunt-text-replace/) and was inspired by [grunt-cache-bust](https://github.com/hollandben/grunt-cache-bust)
